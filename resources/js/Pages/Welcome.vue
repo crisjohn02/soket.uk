@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import { onMounted, ref, onUnmounted } from 'vue';
 
 const _users = ref([]);
@@ -12,16 +12,20 @@ defineProps({
 });
 
 onMounted(() => {
-    Echo.join('online')
+    if (usePage().props.auth?.user) {
+        Echo.join('online')
         .here(users => {
             _users.value = users;
         })
         .joining(user => _users.value.push(user))
         .leaving(user => _users.value.splice(_users.value.indexOf(user), 1))
+    }
+    
 });
 
 onUnmounted(() => {
-    Echo.leave('online');
+    if (usePage().props.auth?.user)
+        Echo.leave('online');
 });
 </script>
 
