@@ -69,22 +69,22 @@ const deleteClient = () => {
                     <div class="p-4">
                         <div class="rounded-lg border p-3 tracking-wide bg-emerald-300 text-medium">
                             <span class="block">
-                                PUSHER_APP_ID={{ client.id }}
+                                app_id = {{ client.id }}
                             </span>
                             <span class="block">
-                                PUSHER_APP_KEY={{ client.key }}
+                                key = {{ client.key }}
                             </span>
                             <span class="block">
-                                PUSHER_APP_SECRET={{ client.secret }}
+                                secret = {{ client.secret }}
                             </span>
                             <span class="block">
-                                PUSHER_HOST=socket.soket.uk
+                                host = socket.soket.uk
                             </span>
                             <span class="block">
-                                PUSHER_PORT=443
+                                port = 443
                             </span>
                             <span class="block">
-                                PUSHER_SCHEME=https
+                                scheme = https
                             </span>
                         </div>
                     </div>

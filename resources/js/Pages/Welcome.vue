@@ -1,11 +1,27 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
+import { onMounted, ref, onUnmounted } from 'vue';
+
+const _users = ref([]);
 
 defineProps({
     canLogin: Boolean,
     canRegister: Boolean,
     laravelVersion: String,
     phpVersion: String,
+});
+
+onMounted(() => {
+    Echo.join('online')
+        .here(users => {
+            _users.value = users;
+        })
+        .joining(user => _users.value.push(user))
+        .leaving(user => _users.value.splice(_users.value.indexOf(user), 1))
+});
+
+onUnmounted(() => {
+    Echo.leave('online');
 });
 </script>
 
@@ -35,18 +51,18 @@ defineProps({
                         Register now and create at a maximum 2 websocket clients and use it in your projects.
                     </p>
 
-                    <p class="text-lg text-gray-600">
+                    <p class="text-lg text-gray-600 mt-6">
                         This websocket server was created using <a href="https://docs.soketi.app/" class="text-sky-500 underline">soketi</a> that implements the <a href="https://pusher.com/docs/channels/library_auth_reference/pusher-websockets-protocol#version-7-2017-11" class="text-sky-500 underline">Pusher Protocol v7.</a> Therefore, any Pusher-maintained or compatible client can connect to it, bringing a plug-and-play experience for existing applications that are already compatible with this protocol.
                     </p>
 
                     <p class="text-lg text-gray-600 mt-6">
-                        For more information please visit the following links because I am lazy enough to discuss it in here :)
-                        <ul>
+                        For more information and complete guide, please visit the following links because I am lazy enough to discuss it in here :)
+                        <ul class="list-disc pl-4">
                             <li>
-                                <a href="https://docs.soketi.app/" class="text-sky-500 underline">Soketi</a>
+                                <a href="https://pusher.com/docs/channels/getting_started/javascript/?ref=docs-index" class="text-sky-500 underline">Pusher docs</a>
                             </li>
                             <li>
-                                <a href="https://pusher.com/" class="text-sky-500 underline">Pusher</a>
+                                <a href="https://docs.soketi.app/" class="text-sky-500 underline">Soketi</a>
                             </li>
                             <li>
                                 <a href="https://laravel.com/docs/10.x/broadcasting#main-content" class="text-sky-500 underline">Laravel Broadcasting</a>
@@ -54,9 +70,9 @@ defineProps({
                         </ul>
                     </p>
                     <div class="mt-10 text-gray-500">
-                        If you find this service usefull, please consider buy me a coffee to help me maintain the hosting and maintenance cost.
+                        If you find this service useful, please consider buying me a coffee to help me maintain the hosting and maintenance cost.
                         <a href="https://www.buymeacoffee.com/lazycod3r" target="_blank" class="mt-5">
-                            <div class="mt-5 rounded-full shadow-lg border p-6 w-2/6 text-lg text-gray-500 mx-auto">
+                            <div class="mt-5 rounded-full shadow-lg border p-6 w-full md:w-2/6 text-lg text-gray-500 mx-auto">
                                 <div class="flex items-center justify-center">
                                     <svg class="w-6 h-6 text-sky-500" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M768 192a192 192 0 1 1-8 383.808A256.128 256.128 0 0 1 512 768H320A256 256 0 0 1 64 512V160a32 32 0 0 1 32-32h640a32 32 0 0 1 32 32v32zm0 64v256a128 128 0 1 0 0-256zM96 832h640a32 32 0 1 1 0 64H96a32 32 0 1 1 0-64zm32-640v320a192 192 0 0 0 192 192h192a192 192 0 0 0 192-192V192H128z"/></svg>
                                     <span class="ml-3">
@@ -66,6 +82,14 @@ defineProps({
                                 
                             </div>
                         </a>
+                        <div class="flex items-center justify-center">
+                            <div class="block mt-5 rounded-md shadow-lg border p-3 w-full md:w-2/6 bg-gray-800 text-white text-xs">
+                                <code>
+                                    {{ _users.length }} people is on this page right now. Awesome!
+                                </code>
+                            </div>
+                        </div>
+                        
                         
                     </div>
                 </div>
@@ -76,7 +100,7 @@ defineProps({
                 </div>
 
                 <div class="ml-4 text-center text-sm text-gray-500 dark:text-gray-400 sm:text-right sm:ml-0">
-                    Laravel v{{ laravelVersion }} (PHP v{{ phpVersion }})
+                    Laravel v{{ laravelVersion }} (PHP v{{ phpVersion }}) by lazycod3r
                 </div>
             </div>
         </div>
