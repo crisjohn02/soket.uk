@@ -82,7 +82,7 @@ onUnmounted(() => {
                                 
                             </div>
                         </a>
-                        <div class="flex items-center justify-center">
+                        <div class="flex items-center justify-center" v-if="$page.props.auth.user">
                             <div class="block mt-5 rounded-md shadow-lg border p-3 w-full md:w-2/6 bg-gray-800 text-white text-xs">
                                 <code>
                                     {{ _users.length }} people is on this page right now. Awesome!
