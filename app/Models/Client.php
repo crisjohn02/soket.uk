@@ -12,6 +12,7 @@ class Client extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'webhooks' => 'array'
+        'webhooks' => 'array',
+        'enable_user_authentication' => 'bool'
     ];
 }

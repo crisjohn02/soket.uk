@@ -23,13 +23,31 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         $request->validateWithBag('createClient', [
-            'name' => 'required|max:255'
+            'name' => 'required|max:255',
+            'max_connections' => 'required|integer|gte:50',
+            'enable_user_authentication' => 'required'
         ]);
         $client = $request->user()->clients()->create([
             'name' => $request->name,
             'key' => random_int(10000, 1000000),
             'secret' => Uuid::uuid4(),
-            'max_connections' => 50
+            'max_connections' => $request->input('max_connections') ?? 50,
+            'enable_user_authentication' => $request->input('enable_user_authentication'),
+        ]);
+        return back();
+    }
+
+    public function update(Request $request, Client $client)
+    {
+        $request->validateWithBag('createClient', [
+            'name' => 'required|max:255',
+            'max_connections' => 'required|integer|gte:50',
+            'enable_user_authentication' => 'required'
+        ]);
+        $client->update([
+            'name' => $request->name,
+            'max_connections' => $request->input('max_connections') ?? 50,
+            'enable_user_authentication' => $request->input('enable_user_authentication'),
         ]);
         return back();
     }

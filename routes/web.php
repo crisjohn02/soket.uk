@@ -36,5 +36,6 @@ Route::middleware([
     Route::get('/dashboard', [ClientController::class, 'index'])->name('dashboard');
 
     Route::post('/client/store', [ClientController::class, 'store'])->name('client.store');
+    Route::put('/client/{client}/update', [ClientController::class, 'update'])->name('client.update');
     Route::delete('/client/destroy/{client}', [ClientController::class, 'destroy'])->name('client.delete');
 });
